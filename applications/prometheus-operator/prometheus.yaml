@@ -16,7 +16,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: prometheus-community
+      chart: prometheus-community/kube-prometheus-stack
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
