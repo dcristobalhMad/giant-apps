@@ -1,0 +1,47 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: prometheus-community
+  namespace: flux-system
+spec:
+  interval: 1h0m0s
+  url: https://prometheus-community.github.io/helm-charts
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: prometheus-community
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+      version: "58.5.3"
+  interval: 1h0m0s
+  targetNamespace: monitoring
+  values:
+    prometheusOperator:
+      resources:
+        limits:
+          memory: 1Gi
+        requests:
+          cpu: 256m
+          memory: 1Gi
+    prometheus:
+      prometheusSpec:
+        additionalScrapeConfigs:
+          - job_name: "kyverno-collector"
+            # metrics_path defaults to '/metrics'
+            # scheme defaults to 'http'.
+            static_configs:
+              - targets: ["kyverno-svc-metrics.kyverno.svc.cluster.local:8000"]
+          - job_name: "cluster-autoscaler"
+            # metrics_path defaults to '/metrics'
+            # scheme defaults to 'http'.
+            static_configs:
+              - targets:
+                  ["cluster-autoscaler.kube-system.svc.cluster.local:8085"]
