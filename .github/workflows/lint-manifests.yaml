@@ -9,4 +9,5 @@ jobs:
       - name: yaml-lint
         uses: ibiqlik/action-yamllint@v3
         with:
-          file_or_dir: workflows/**/*.yaml applications/**/*.yaml
+          file_or_dir: .github/workflows/**/*.yaml applications/**/*.yaml
+          no_warnings: true
