@@ -1,0 +1,38 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: port-scan-exporter
+  namespace: flux-system
+spec:
+  interval: 10m
+  type: oci
+  url: oci://registry-1.docker.io/dcristobal
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: port-scan-exporter
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: monitoring
+  chart:
+    spec:
+      chart: port-scan-exporter
+      version: ">=0.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: port-scan-exporter
+  values:
+    monitor:
+      enabled: true
+    securityContext:
+      allowPrivilegeEscalation: false
+      seccompProfile:
+        type: RuntimeDefault
+      capabilities:
+        drop:
+          - ALL
+      readOnlyRootFilesystem: true
+      runAsNonRoot: true
+      runAsUser: 1000
