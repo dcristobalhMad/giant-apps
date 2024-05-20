@@ -23,6 +23,7 @@ spec:
       version: "58.5.3"
   interval: 1h0m0s
   targetNamespace: monitoring
+  releaseName: kube-prometheus-stack
   values:
     prometheusOperator:
       resources:
