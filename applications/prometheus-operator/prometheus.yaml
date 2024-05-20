@@ -32,23 +32,3 @@ spec:
         requests:
           cpu: 256m
           memory: 1Gi
-    prometheus:
-      prometheusSpec:
-        additionalScrapeConfigs:
-          - job_name: "kyverno-collector"
-            # metrics_path defaults to '/metrics'
-            # scheme defaults to 'http'.
-            static_configs:
-              - targets: ["kyverno-svc-metrics.kyverno.svc.cluster.local:8000"]
-          - job_name: "cluster-autoscaler"
-            # metrics_path defaults to '/metrics'
-            # scheme defaults to 'http'.
-            static_configs:
-              - targets:
-                  ["cluster-autoscaler.kube-system.svc.cluster.local:8085"]
-          - job_name: "port-scan-exporter"
-            # metrics_path defaults to '/metrics'
-            # scheme defaults to 'http'.
-            static_configs:
-              - targets:
-                  ["port-scan-exporter.monitoring.svc.cluster.local:8080"]
