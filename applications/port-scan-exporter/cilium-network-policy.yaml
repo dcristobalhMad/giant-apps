@@ -1,0 +1,75 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  egress:
+    - toEntities:
+        - kube-apiserver
+        - cluster
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/instance: kube-prometheus-prometheus
+  ingress:
+    - fromEntities:
+        - cluster
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: port-scan-exporter
+  namespace: monitoring
+spec:
+  egress:
+    - toEntities:
+        - kube-apiserver
+        - cluster
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: port-scan-exporter
+  ingress:
+    - fromEntities:
+        - cluster
+
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kube-prometheus-stack-kube-state-metrics
+  namespace: monitoring
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: kube-state-metrics
+      app.kubernetes.io/instance: kube-prometheus-stack
+  egress:
+    - toEntities:
+        - kube-apiserver
+  ingress:
+    - toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+            - port: "8081"
+              protocol: TCP
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kube-prometheus-stack-operator
+  namespace: monitoring
+spec:
+  endpointSelector:
+    matchLabels:
+      app: kube-prometheus-stack-operator
+      app.kubernetes.io/instance: kube-prometheus-stack
+  egress:
+    - toEntities:
+        - kube-apiserver
+  ingress:
+    - toPorts:
+        - ports:
+            - port: "10250"
+              protocol: "TCP"
