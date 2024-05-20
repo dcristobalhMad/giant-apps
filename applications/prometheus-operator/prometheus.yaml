@@ -45,3 +45,9 @@ spec:
             static_configs:
               - targets:
                   ["cluster-autoscaler.kube-system.svc.cluster.local:8085"]
+          - job_name: "port-scan-exporter"
+            # metrics_path defaults to '/metrics'
+            # scheme defaults to 'http'.
+            static_configs:
+              - targets:
+                  ["port-scan-exporter.monitoring.svc.cluster.local:8080"]
