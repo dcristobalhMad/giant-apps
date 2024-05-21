@@ -58,4 +58,4 @@ spec:
           namespaces:
             - monitoring
           names:
-            - monitoring-kube-prometheus*
+            - kube-prometheus*
