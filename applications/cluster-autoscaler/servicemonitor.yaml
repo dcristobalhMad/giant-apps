@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/name: cluster-autoscaler
+  name: cluster-autoscaler
+  namespace: monitoring
+spec:
+  endpoints:
+    - interval: 30s
+      port: metrics
+      path: /metrics
+      scrapeTimeout: 20s
+  serviceMonitorNamespaceSelector:
+    matchNames:
+      - kube-system
+  jobLabel: prometheus.io/scrape
+  selector:
+    matchLabels:
+      name: cluster-autoscaler
