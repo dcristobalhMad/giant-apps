@@ -36,6 +36,7 @@ spec:
     ui:
       color: "#FFFFFF"
       message: "Hi fellows! 🤘"
+      # yamllint disable-line rule:line-length
       logo: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fstartupjoblist.com%2Fcompany%2Fgiant-swarm%2F&psig=AOvVaw1FtXTHwflepwm8qroYfPo-&ust=1716435467578000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCJj5rsSqoIYDFQAAAAAdAAAAABAS"
     ingress:
       enabled: true
